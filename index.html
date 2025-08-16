@@ -130,11 +130,11 @@
       <section class="card">
         <h2>❓ A tiny quiz</h2>
         <form class="quiz" id="quiz">
-          <label>Her favorite chai: 
-            <select name="chai">
-              <option value="masala">Masala</option>
-              <option value="ginger">Ginger</option>
-              <option value="lemon">Lemon</option>
+          <label>Her favorite Dish: 
+            <select name="Dish">
+              <option value="Biryani">Masala</option>
+              <option value="Paneer">Ginger</option>
+              <option value="chicken">Lemon</option>
             </select>
           </label>
           <label>Our song length ends with: 
@@ -159,7 +159,7 @@
       <!-- Share -->
       <section class="card" style="grid-column:1/-1">
         <h2>🔗 Share this page</h2>
-        <p class="sub">Share it with you sole and save this inside you,may be you regreate for choosing me but will miss me for sure.</p>
+        <p class="sub">Share it with you soul and save this inside you. May be you regreate for choosing me but will miss me for sure.</p>
         <div style="display:flex; gap:10px; flex-wrap:wrap">
           <button id="shareBtn">Copy page URL</button>
           <a class="btn" href="#" id="installBtn" style="display:none">Install as app</a>
@@ -220,10 +220,7 @@
   document.getElementById('openStory').addEventListener('click',()=>{
     typeText(letter); window.scrollTo({top:document.getElementById('letterCard').offsetTop-20, behavior:'smooth'});
   });
-  // Autoplay on load
-  window.addEventListener('load',()=> typeText(letter));
-
-  // Text-to-speech (Web Speech API)
+   // Text-to-speech (Web Speech API)
   function narrate(text){
     const synth = window.speechSynthesis; if(!synth) return alert('Speech not supported on this browser');
     synth.cancel();
