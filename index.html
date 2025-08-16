@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For Us ❤️</title>
+  <meta name="theme-color" content="#ff6b81" />
+  <style>
+    :root{
+      --bg:#101011; --fg:#ffffff; --muted:#ffffff; --accent:#f74b65; --card:#e2dfdf; --glow: 0 0 40px rgba(0, 0, 0, 0.25);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background: radial-gradient(1000px 600px at 10% -10%, #241220 0%, transparent 60%),
+                         radial-gradient(900px 700px at 90% -20%, #1c2333 0%, transparent 60%),
+                         var(--bg);
+      color:var(--fg); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      line-height:1.6; overflow-x:hidden;
+    }
+
+    /* Floating hearts background */
+    .hearts{position:fixed; inset:0; pointer-events:none; z-index:0;}
+    .heart{position:absolute; font-size:12px; animation: floatUp linear forwards; opacity:.85; filter: drop-shadow(0 0 6px rgba(255,107,129,.5));}
+    @keyframes floatUp{from{transform:translateY(0) scale(.9)} to{transform:translateY(-120vh) scale(1.15); opacity:0}}
+
+    /* Layout */
+    .wrap{position:relative; z-index:1; max-width:960px; margin:0 auto; padding:24px;}
+    header{display:grid; gap:14px; place-items:center; text-align:center; padding:72px 12px 48px}
+    .logo{width:88px; height:88px; display:grid; place-items:center; border-radius:50%; background:linear-gradient(135deg,#ff6b81,#ff9aa2); box-shadow:var(--glow)}
+    .logo svg{filter: drop-shadow(0 4px 10px rgba(0,0,0,.3))}
+    h1{font-size:clamp(28px, 4vw, 40px); margin:10px 0 0}
+    .sub{color:var(--muted)}
+
+    .card{background:linear-gradient(180deg, rgba(243, 233, 233, 0.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.07); border-radius:18px; padding:20px; box-shadow:0 10px 40px rgba(0,0,0,.25)}
+    .grid{display:grid; gap:18px}
+    @media (min-width: 820px){ .grid-2{grid-template-columns: 1.1fr .9fr} }
+
+    button, .btn{
+      --_bg: linear-gradient(135deg,#ff6b81,#ff9aa2);
+      background: var(--_bg); color:#fff; border:none; padding:12px 18px; border-radius:999px; cursor:pointer; font-weight:700; letter-spacing:.2px; box-shadow:var(--glow);
+    }
+    button:disabled{opacity:.6; cursor:not-allowed}
+    .ghost{background:transparent; border:1px solid rgba(255,255,255,.18); color:#fff}
+
+    /* Typewriter */
+    .typed{min-height:160px; font-size:clamp(16px, 2.4vw, 20px); white-space:pre-wrap}
+    .caret{display:inline-block; width:1ch; animation:blink .95s steps(1) infinite}
+    @keyframes blink{50%{opacity:0}}
+
+    /* Timeline */
+    .timeline{position:relative; padding-left:24px}
+    .timeline::before{content:""; position:absolute; left:10px; top:6px; bottom:6px; width:2px; background:rgba(255,255,255,.15)}
+    .t{display:grid; grid-template-columns:auto 1fr; gap:10px; align-items:start; margin:10px 0}
+    .t .dot{width:12px; height:12px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(255,107,129,.15)}
+    .t time{color:#ffb6c1; font-weight:700}
+
+    /* Gallery */
+    .gallery{display:grid; grid-template-columns:repeat(auto-fill, minmax(120px,1fr)); gap:10px}
+    .gallery img{width:100%; height:120px; object-fit:cover; border-radius:14px; cursor:pointer; filter:saturate(1.05)}
+    .lightbox{position:fixed; inset:0; backdrop-filter:blur(6px); background:rgba(0,0,0,.6); display:none; place-items:center; z-index:10}
+    .lightbox img{max-width:90vw; max-height:80vh; border-radius:16px}
+
+    /* Quiz */
+    .quiz{display:grid; gap:8px}
+    .right{color:#7CFC00}
+    .wrong{color:#ff7b7b}
+
+    /* Hidden message */
+    .secret{display:none;}
+
+    /* Accessibility: reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      .heart{animation: none}
+      .caret{animation: none}
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+  <div class="wrap">
+    <header>
+      <div class="logo" aria-hidden="true">
+        <svg width="62" height="62" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 21s-6.716-4.214-9.193-8.2C1.079 10.2 2.08 7.2 4.8 6.4c1.916-.56 3.621.414 4.2 1.6.579-1.186 2.284-2.159 4.2-1.6 2.72.8 3.721 3.8 1.993 6.4C18.716 16.786 12 21 12 21Z" fill="#fff"/></svg>
+      </div>
+      <h1>One and only for you Insha❤️</h1>
+      <p class="sub">Something that would makes you smile my love. 💌</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center">
+        <button id="openStory">Open our story</button>
+        <button class="ghost" id="musicToggle" aria-pressed="false">Play music</button>
+      </div>
+      <audio id="song" preload="metadata">
+        <!-- Replace src with your song (MP3/OGG) -->
+        <source src="Saiyaara.mp3" type="audio/mpeg" />
+      </audio>
+    </header>
+
+    <main class="grid grid-2">
+      <!-- Love Letter -->
+      <section class="card" id="letterCard" aria-live="polite">
+        <h2>💌Read this I hope you like it.</h2>
+        <div class="typed" id="typed"></div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap">
+          <button id="typeAgain">Replay</button>
+          <button class="ghost" id="ttsBtn" title="Hear this letter read aloud">🔊 Narrate</button>
+          <button class="ghost" id="copyBtn">Copy letter</button>
+        </div>
+      </section>
+
+      <!-- Timeline -->
+      <section class="card">
+        <h2>📅 Our tiny timeline</h2>
+        <div class="timeline" id="timeline">
+          <div class="t"><span class="dot" aria-hidden="true"></span><div><time>27 November 2022</time><div>The day we started our our life together.</div></div></div>
+          <div class="t"><span class="dot" aria-hidden="true"></span><div><time>31 December 2022</time><div>Our first date the day I holded her hand and kissed her lips .</div></div></div>
+          <div class="t"><span class="dot" aria-hidden="true"></span><div><time>Forever</time><div>Now we keep on choosing each other everday we fight, we argue but still never wanna lose each other side this is the love we have for each other and will always.</div></div></div>
+        </div>
+        <p class="sub">I love you so much My dream girl❤️</p>
+      </section>
+
+      <!-- Gallery -->
+      <section class="card" style="grid-column:1/-1">
+        <h2>Its our Gallary🖼️</h2>
+        <p class="sub">These are not only photos these are the movement we been together, seeing you for hours would never makes me bored cause for me you are the most beautifull women in the world</p>
+        <div class="gallery" id="gallery"></div>
+      </section>
+
+      <!-- Quiz -->
+      <section class="card">
+        <h2>❓ A tiny quiz</h2>
+        <form class="quiz" id="quiz">
+          <label>Her favorite chai: 
+            <select name="chai">
+              <option value="masala">Masala</option>
+              <option value="ginger">Ginger</option>
+              <option value="lemon">Lemon</option>
+            </select>
+          </label>
+          <label>Our song length ends with: 
+            <input name="song" placeholder="e.g., 3:27" />
+          </label>
+          <button type="submit">Check answers</button>
+          <div id="quizResult" role="status" aria-live="polite"></div>
+        </form>
+      </section>
+
+      <!-- Secret -->
+      <section class="card">
+        <h2>🔐 Unlock a secret</h2>
+        <p class="sub">Type your nickname and press unlock.</p>
+        <input id="code" placeholder="type" />
+        <button id="unlock">Unlock</button>
+        <div class="secret" id="secret">
+          <p>Surprise! No matter how the day goes, you are my favorite person, the best listener and the safest part of my life. 💖</p>
+        </div>
+      </section>
+
+      <!-- Share -->
+      <section class="card" style="grid-column:1/-1">
+        <h2>🔗 Share this page</h2>
+        <p class="sub">Share it with you sole and save this inside you,may be you regreate for choosing me but will miss me for sure.</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap">
+          <button id="shareBtn">Copy page URL</button>
+          <a class="btn" href="#" id="installBtn" style="display:none">Install as app</a>
+        </div>
+      </section>
+    </main>
+
+    <footer style="padding:40px 12px; text-align:center; color:var(--muted)">Made with ❤️ by Your Priyanshu
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo preview">
+    <img alt="Preview" />
+  </div>
+
+<script>
+  // ------- Floating hearts background -------
+  const hearts = document.getElementById('hearts');
+  const emojis = ['❤','💖','💗','💘','💞','💕'];
+  let heartTimer = 0;
+  function spawnHeart(){
+    const el = document.createElement('div');
+    el.className = 'heart';
+    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left = Math.random()*100 + 'vw';
+    el.style.bottom = '-10vh';
+    const dur = 6 + Math.random()*6;
+    el.style.animationDuration = dur + 's';
+    el.style.fontSize = (10 + Math.random()*22) + 'px';
+    hearts.appendChild(el);
+    setTimeout(()=> el.remove(), dur*1000);
+  }
+  function loopHearts(){
+    heartTimer = setInterval(spawnHeart, 500);
+  }
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    loopHearts();
+  }
+
+  // ------- Typewriter letter + TTS -------
+  const letter = 'Dear Insha,\n\nI love you so much, you are the best thing that had happend in my life, Iknow we fight alot , but still we keep choosing each other again and again.\nThank you for always being my backbone, the way you listen when I ramble, and the way you show up—every single day.\n\nHere’s my promise: I’ll keep choosing you in the small, ordinary moments, not just the highlight ones.\n\nIf today is heavy, let this page carry a little of it. If today is bright, let this page make it brighter,Your exictance values alot, It makes my life beautifull.\n\n— Yours Priyanshu';
+  const typedEl = document.getElementById('typed');
+  const ttsBtn = document.getElementById('ttsBtn');
+  let typing;
+  function typeText(text){
+    clearInterval(typing);
+    typedEl.textContent = '';
+    const caret = document.createElement('span'); caret.className='caret'; caret.textContent='|';
+    typedEl.appendChild(caret);
+    let i = 0;
+    typing = setInterval(()=>{
+      typedEl.insertBefore(document.createTextNode(text[i]||''), caret);
+      i++;
+      if(i > text.length){ clearInterval(typing); }
+    }, 22);
+  }
+  document.getElementById('typeAgain').addEventListener('click',()=> typeText(letter));
+  document.getElementById('openStory').addEventListener('click',()=>{
+    typeText(letter); window.scrollTo({top:document.getElementById('letterCard').offsetTop-20, behavior:'smooth'});
+  });
+  // Autoplay on load
+  window.addEventListener('load',()=> typeText(letter));
+
+  // Text-to-speech (Web Speech API)
+  function narrate(text){
+    const synth = window.speechSynthesis; if(!synth) return alert('Speech not supported on this browser');
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    u.rate = 1; u.pitch = 1.05; u.volume = 1;
+    synth.speak(u);
+  }
+  ttsBtn.addEventListener('click',()=> narrate(letter));
+
+  // Copy letter
+  document.getElementById('copyBtn').addEventListener('click', async ()=>{
+    await navigator.clipboard.writeText(letter);
+    toast('Letter copied ✨');
+  });
+
+  // ------- Music toggle -------
+  const song = document.getElementById('song');
+  const musicToggle = document.getElementById('musicToggle');
+  musicToggle.addEventListener('click', async ()=>{
+    try{
+      if(song.paused){ await song.play(); musicToggle.textContent='Pause music'; musicToggle.setAttribute('aria-pressed','true'); }
+      else{ song.pause(); musicToggle.textContent='Play music'; musicToggle.setAttribute('aria-pressed','false'); }
+    }catch(e){ toast('Add a song file first 🎵'); }
+  });
+
+ 
+  const gallery = document.getElementById('gallery');
+  const photos = [
+    'photo1.jpg','photo2.jpg','photo3.jpg','photo4.jpg' 
+  ];
+  photos.forEach(src=>{
+    const img = document.createElement('img'); img.alt = 'us'; img.loading='lazy'; img.decoding='async'; img.src = src; gallery.appendChild(img);
+  });
+
+  // Lightbox
+  const lb = document.getElementById('lightbox'); const lbImg = lb.querySelector('img');
+  gallery.addEventListener('click', e=>{
+    if(e.target.tagName==='IMG'){ lbImg.src = e.target.src; lb.style.display='grid'; }
+  });
+  lb.addEventListener('click', ()=> lb.style.display='none');
+
+  // ------- Quiz -------
+  document.getElementById('quiz').addEventListener('submit', e=>{
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target));
+    let score = 0; if(data.chai==='ginger') score++; if((data.song||'').trim().endsWith('27')) score++;
+    const out = document.getElementById('quizResult');
+    if(score===2){ out.innerHTML = '<span class="right">Perfect! You know us. 🎉</span>'; confetti(); }
+    else{ out.innerHTML = '<span class="wrong">Close! Try again 💫</span>'; }
+  });
+
+  // Minimal confetti (no libraries)
+  function confetti(){
+    const canvas = document.createElement('canvas'); canvas.width=innerWidth; canvas.height=innerHeight; canvas.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:9'; document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d'); const pieces = Array.from({length:160},()=>({x:Math.random()*canvas.width,y:-20-(Math.random()*canvas.height),r:4+Math.random()*6,c:`hsl(${Math.random()*360},90%,60%)`,v:2+Math.random()*3,rot:Math.random()*6.28}));
+    let t=0; function frame(){ t++; ctx.clearRect(0,0,canvas.width,canvas.height);
+      for(const p of pieces){ p.y += p.v; p.x += Math.sin((p.y+p.r)*0.02); p.rot += 0.05; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.c; ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r); ctx.restore(); }
+      if(t<260) requestAnimationFrame(frame); else canvas.remove();
+    } frame();
+  }
+
+  // ------- Secret unlock -------
+  document.getElementById('unlock').addEventListener('click',()=>{
+    const code = document.getElementById('code').value.trim().toLowerCase();
+    if(!code) return toast('Baby');
+    // Change this to her real nickname
+    if(code === 'baby'){
+      document.getElementById('secret').style.display='block';
+      confetti();
+    } else {
+      toast('Almost! Try the exact nickname 💡');
+    }
+  });
+
+  // ------- Share / PWA-ish install -------
+  document.getElementById('shareBtn').addEventListener('click', async ()=>{
+    try{
+      await navigator.clipboard.writeText(location.href);
+      toast('Link copied!');
+    }catch(err){ toast('Could not copy. Long-press the address bar.'); }
+  });
+
+  // Simple toast
+  function toast(msg){
+    const el = document.createElement('div');
+    el.textContent = msg;
+    el.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#15151c;color:#fff;border:1px solid rgba(255,255,255,.18);padding:10px 14px;border-radius:999px;z-index:11;box-shadow:0 8px 30px rgba(0,0,0,.3)';
+    document.body.appendChild(el); setTimeout(()=> el.remove(), 2000);
+  }
+</script>
+</body>
+</html>
